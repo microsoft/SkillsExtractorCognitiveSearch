@@ -1,0 +1,13 @@
+{
+  "azureFunctions.projectRuntime": "~2",
+  "azureFunctions.projectLanguage": "Python",
+  "azureFunctions.deploySubpath": "functionapp_skills.zip",
+  "azureFunctions.preDeployTask": "func: pack --build-native-deps",
+  "files.exclude": {
+    "obj": true,
+    "bin": true
+  },
+  "azureFunctions.pythonVenv": ".env",
+  "debug.internalConsoleOptions": "neverOpen",
+  "python.pythonPath": ".env\\Scripts\\python.exe"
+}

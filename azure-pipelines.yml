@@ -1,0 +1,24 @@
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '8.x'
+
+- script: |
+    set -e
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+    curl -L https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    sudo apt-get install -y apt-transport-https
+    echo "install Azure CLI..."
+    sudo apt-get update && sudo apt-get install -y azure-cli
+    npm i -g azure-functions-core-tools --unsafe-perm true
+    echo "installing dotnet core"
+    curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 2.0
+- script: |
+    set -e
+    az login --service-principal --username "$(APP_ID)" --password "$(PASSWORD)" --tenant "$(TENANT_ID)" 
+    func settings add FUNCTIONS_WORKER_RUNTIME python
+    func extensions install
+    func azure functionapp publish $(APP_NAME) --build-native-deps
