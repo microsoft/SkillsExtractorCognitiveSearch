@@ -7,6 +7,7 @@ class SkillProperty(str, Enum):
     id = "id"
     name = "standardizedName"
 
+
 # Azure Search Cognitive Skills Models
 class AzureSearchDocumentDataRequest(BaseModel):
     text: str

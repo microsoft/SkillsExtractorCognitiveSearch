@@ -12,62 +12,54 @@ nlp = English()
 skills_extractor = SkillsExtractor(nlp)
 
 
-async def extract_from_text(text: str):
-    """Extract skills from raw text"""
-    skills = skills_extractor.extract_skills(text)
-    skills_list = []
-
-    for skill_id, skill_info in skills.items():
-        skills_list.append(
-            {
-                "id": skill_id,
-                "standardizedName": skill_info["name"]
-            }
-        )
-    return skills_list
-
-
-async def extract_from_doc(doc, skill_property='id'):
+async def extract_from_doc(
+    doc: AzureSearchDocumentsRequest, skill_property: str = "id"
+):
     """Extract Skills from a single Document"""
+    extracted_skills = skills_extractor.extract_skills(doc.data.text)
+    skills = []
+    for skill_id, skill_info in extracted_skills.items():
+        if skill_property == "name":
+            skills.append(skill_info["name"])
+        else:
+            skills.append(skill_id)
 
-    skills = await extract_from_text(doc.data.text)
     return {
         "recordId": doc.recordId,
-        "data": {
-            "skills": [s[skill_property] for s in skills]
-        },
+        "data": {"skills": skills},
         "warnings": None,
-        "errors": None
+        "errors": None,
     }
 
 
-async def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+async def extract_from_docs(
+    docs: AzureSearchDocumentsRequest, skill_property: str = "id"
+) -> AzureSearchDocumentsResponse:
+    results = []
+    for doc in docs:
+        result = extract_from_doc(doc, skill_property=skill_property)
+        results.append(result)
 
-    skill_property = req.params.get('skill_property', 'id')
-    
+    res = await asyncio.gather(*results)
+
+    values_res = {"values": res}
+
+    return AzureSearchDocumentsResponse(**values_res)
+
+
+async def main(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info("Python HTTP trigger function processed a request.")
+
+    skill_property = req.params.get("skill_property", "id")
+
     try:
         body = AzureSearchDocumentsRequest(**req.get_json())
         logging.info(body)
     except ValueError:
-        return func.HttpResponse(
-             "Please pass a valid request body",
-             status_code=400
-        )
+        return func.HttpResponse("Please pass a valid request body", status_code=400)
 
     if body:
-        response_headers = {
-            'Content-Type': 'application/json'
-        }
-        results = []
-        for doc in body.values:
-            result = extract_from_doc(doc, skill_property=skill_property)
-            results.append(result)
-        
-        res = await asyncio.gather(*results)
+        response_headers = {"Content-Type": "application/json"}
+        values_res = await extract_from_docs(body.values, skill_property)
 
-        values_res = {
-            'values': res
-        }
-
-        return func.HttpResponse(json.dumps(values_res), headers=response_headers)
+        return func.HttpResponse(values_res.json(), headers=response_headers)
