@@ -52,19 +52,14 @@ class SkillsExtractor:
         if not patterns_path.exists() or create:
             """Build up lists of spacy token patterns for matcher"""
             patterns = []
-            split_tokens = [".", "/"]
-            special_case_synonyms = {
-                "algorithm": ["algorithms"],
-                "artificial-intelligence": ["ai"],
-                "machine-learning": ["ml"],
-                "natural-language-processing": ["nlp"],
-            }
+            split_tokens = [".", "/", "-"]
 
-            for skill_id, sources in skills.items():
+            for skill_id, skill_info in skills.items():
+                aliases = skill_info['aliases']
+                sources = skill_info['sources']
                 skill_names = set()
-                if skill_id in special_case_synonyms:
-                    for syn in special_case_synonyms[skill_id]:
-                        skill_names.add(syn)
+                for al in aliases[skill_id]:
+                    skill_names.add(al)
                 for source in sources:
                     if "displayName" in source:
                         skill_names.add(source["displayName"])
@@ -108,7 +103,8 @@ class SkillsExtractor:
             if "|" in ent.label_:
                 ent_label, skill_id = ent.label_.split("|")
                 if ent_label == "SKILL" and skill_id:
-                    sources = self.skills[skill_id]
+                    skill_info = self.skills[skill_id]
+                    sources = skill_info['sources']
 
                     # Some sources have better Skill Descriptions than others.
                     # This is a simple heuristic for cascading through the sources 

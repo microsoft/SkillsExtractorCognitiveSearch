@@ -8,6 +8,7 @@ from spacy.lang.en import English
 from .models import *
 from ..services.skills import SkillsExtractor
 
+
 nlp = English()
 skills_extractor = SkillsExtractor(nlp)
 
@@ -17,16 +18,16 @@ async def extract_from_doc(
 ):
     """Extract Skills from a single Document"""
     extracted_skills = skills_extractor.extract_skills(doc.data.text)
-    skills = []
+    skills = set()
     for skill_id, skill_info in extracted_skills.items():
         if skill_property == "name":
-            skills.append(skill_info["name"])
+            skills.add(skill_info["displayName"])
         else:
-            skills.append(skill_id)
+            skills.add(skill_id)
 
     return {
         "recordId": doc.recordId,
-        "data": {"skills": skills},
+        "data": {"skills": sorted(list(skills))},
         "warnings": None,
         "errors": None,
     }
