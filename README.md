@@ -12,7 +12,7 @@ Machine Learning, Artificial Intelligence, PyTorch, Business, Advertising
 
 ## Skill Sources 
 
-We pull skills and technologies from many open online sources and use build [record linkage](https://github.com/dedupeio/dedupe-examples/tree/master/record_linkage_example) models to conflate skills and categories across each source into a single [knowledge graph](https://hackernoon.com/wtf-is-a-knowledge-graph-a16603a1a25f).
+We pull skills and technologies from many open online sources and build [Record Linkage](https://github.com/dedupeio/dedupe-examples/tree/master/record_linkage_example) models to conflate skills and categories across each source into a single [Knowledge Graph](https://hackernoon.com/wtf-is-a-knowledge-graph-a16603a1a25f).
 
 * [Coursera](https://www.coursera.org/gsi/)
 * [Microsoft Academic Graph](https://academic.microsoft.com/topics)
