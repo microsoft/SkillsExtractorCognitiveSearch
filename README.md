@@ -1,19 +1,19 @@
 # Introduction
 
-The Skills Extractor API takes unstructured text and returns a list of 
-Skills contained in that text.
+The Skills Extractor API is a Named Entity Recognition (NER) tool that takes text input, extracts entities related to skills, then matches concepts mentioned in text to metadata about skills and returns a list of skills from the that text.
 
 ## What is a Skill?
+For the current goals of the service, we are focused on technical skills. Technical skills are the abilities and knowledge needed to perform specific tasks. They are practical, and often relate to mechanical, information technology, mathematical, or scientific tasks. 
+The Taxonomies the API pulls from primarily consist of concepts and tools related to technology. For example, Programming Languages are considered a higher-level technical skill, and C# or Python are a sub of that larger skill.
 
-The Taxonomies the API pulls from primarily consist of concepts and tools related to technology.
-
-Example Skills:
+More examples of Skills:
 Machine Learning, Artificial Intelligence, PyTorch, Business, Advertising
 
 ## Skill Sources 
 
 We pull skills and technologies from many open online sources and build [Record Linkage](https://github.com/dedupeio/dedupe-examples/tree/master/record_linkage_example) models to conflate skills and categories across each source into a single [Knowledge Graph](https://hackernoon.com/wtf-is-a-knowledge-graph-a16603a1a25f).
 
+Here is a list of our sources: 
 * [Coursera](https://www.coursera.org/gsi/)
 * [Microsoft Academic Graph](https://academic.microsoft.com/topics)
 * [LinkedIn Learning](https://www.linkedin.com/learning/me/skills)
@@ -23,11 +23,20 @@ We pull skills and technologies from many open online sources and build [Record 
 * [ONET Online Hot Technology Index](https://www.onetonline.org/search/hot_tech/)
 * [ACM Classifications](https://dl.acm.org/ccs/ccs_flat.cfm)
 
-
 # Use Cases
+The original idea stemmed from a few organizational needs. Here a few: 
+*   ### Determine the skills required for a job opening at your company and match applicant resumes based on skills. 
+*   ### Extract skills from Learning Content that your company creates to improve search and recommendations. 
+*   ### Identify the technical and professional skills of your team or organization and work to close skill gaps.
 
-*   ### Pull out skills from descriptions of open Jobs at your company
-*   ### Extract skills from Learning Content that your company creates
+## Prerequisites
+
+Before running this sample, you must have the following:
+
+* Install [Azure Core Tools version 2.x](functions-run-local.md#v2).
+
+* Install the [Azure CLI]( /cli/azure/install-azure-cli). This article requires the Azure CLI version 2.0 or later. Run `az --version` to find the version you have.  
+You can also use the [Azure Cloud Shell](https://shell.azure.com/bash).
 
 # Quickstart: Extract Skills for your data in Azure Search using a Custom Cognitive Skill
 
