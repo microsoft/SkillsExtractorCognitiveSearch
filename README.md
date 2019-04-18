@@ -1,6 +1,6 @@
 # Introduction
 
-The Skills Extractor API is a Named Entity Recognition (NER) tool that takes text input, extracts entities related to skills, then matches concepts mentioned in text to metadata about skills and returns a list of skills from the that text.
+The Skills Extractor API is a Named Entity Recognition (NER) tool that takes text input, extracts entities related to skills, then matches concepts mentioned in text to metadata about skills and returns a list of skills from that text.
 
 ## What is a Skill?
 For the current goals of the service, we are focused on technical skills. Technical skills are the abilities and knowledge needed to perform specific tasks. They are practical, and often relate to mechanical, information technology, mathematical, or scientific tasks. 
@@ -33,9 +33,7 @@ The original idea stemmed from a few organizational needs. Here are a few:
 
 Before running this sample, you must have the following:
 
-* Install [Azure Core Tools version 2.x](functions-run-local.md#v2).
-
-* Install the [Azure CLI]( /cli/azure/install-azure-cli). This article requires the Azure CLI version 2.0 or later. Run `az --version` to find the version you have.  
+* Install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest). This article requires the Azure CLI version 2.0 or later. Run `az --version` to find the version you have.  
 You can also use the [Azure Cloud Shell](https://shell.azure.com/bash).
 
 # Quickstart: Extract Skills for your data in Azure Search using a Custom Cognitive Skill

@@ -19,7 +19,17 @@ You can build and host the container yourself from this repo or use the prebuilt
 > For a more complete walktrhough of deploying Azure Functions, Follow instructions here: 
 https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image#create-a-resource-group
 
+## Login with Azure CLI
 
+```azurecli-interactive
+az login
+```
+
+## Set an active subscription
+
+```azurecli-interactive
+az account set --subscription mySubscriptionIdOrName
+```
 
 ## Create a resource group
 
