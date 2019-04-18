@@ -74,7 +74,7 @@ Open your search index in the Azure Portal and add a new field with a skills fie
 You can also update your search index using the Azure Search REST API docs here:
 https://docs.microsoft.com/en-us/azure/search/search-what-is-an-index
 
-![Skills Field](docs/media/skills_field.jpg)
+![Skills Field](media/skills_field.jpg)
 
 
 
@@ -84,7 +84,7 @@ Open the [Azure Portal](https://portal.azure.com) and navigate to the function a
 
 Click Get Function URL
 
-![Click the Get Function Url Button](docs/media/get_function_url_btn.jpg)
+![Click the Get Function Url Button](media/get_function_url_btn.jpg)
 
 And copy the Function URL
 
