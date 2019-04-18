@@ -24,10 +24,10 @@ Here is a list of our sources:
 * [ACM Classifications](https://dl.acm.org/ccs/ccs_flat.cfm)
 
 # Use Cases
-The original idea stemmed from a few organizational needs. Here a few: 
-*   ### Determine the skills required for a job opening at your company and match applicant resumes based on skills. 
-*   ### Extract skills from Learning Content that your company creates to improve search and recommendations. 
-*   ### Identify the technical and professional skills of your team or organization and work to close skill gaps.
+The original idea stemmed from a few organizational needs. Here are a few: 
+*   #### Determine the skills required for a job opening at your company and match applicant resumes based on skills. 
+*   #### Extract skills from Learning Content that your company creates to improve search and recommendations. 
+*   #### Identify the technical and professional skills of your team or organization and work to close skill gaps.
 
 ## Prerequisites
 

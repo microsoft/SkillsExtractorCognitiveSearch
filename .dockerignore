@@ -1,0 +1,5 @@
+.env
+.vscode
+deployment
+docs
+local.settings.json

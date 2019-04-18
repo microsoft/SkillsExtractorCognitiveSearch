@@ -16,7 +16,7 @@ You can also use the [Azure Cloud Shell](https://shell.azure.com/bash).
 ## Deploy Docker Container to Azure Functions using Azure CLI
 
 The first step is deploy your own instance of the Skills Extractor Azure Function.
-You can build and host the container yourself from this repo or use the prebuilt container on Docker Hub: `kabirkhan14/azure-functions-skills-extractor`
+You can build and host the container yourself from this repo or use the prebuilt container on Docker Hub: `mcr.microsoft.com/wwllab/skills/skills-extractor-cognitive-search`
 
 > For a more complete walktrhough of deploying Azure Functions, Follow instructions here: 
 https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image#create-a-resource-group
@@ -47,7 +47,7 @@ The function app hosts the execution of your functions. Create a function app fr
 
 ```azurecli-interactive
 az functionapp create --name <app_name> --storage-account  <storage_name>  --resource-group myResourceGroup \
---plan myAppServicePlan --deployment-container-image-name kabirkhan14/azure-functions-skills-extractor
+--plan myAppServicePlan --deployment-container-image-name mcr.microsoft.com/wwllab/skills/skills-extractor-cognitive-search
 ```
 
 ## Configure the function app
