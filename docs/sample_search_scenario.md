@@ -22,7 +22,8 @@ You only need to edit 1 parameter in azuredeploy.parameters.json
 Change YOUR_PREFIX_HERE to something unique
 
 `azuredeploy.parameters.json`
-```json{
+```json
+{
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {

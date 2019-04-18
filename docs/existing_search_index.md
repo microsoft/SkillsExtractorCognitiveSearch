@@ -7,9 +7,7 @@ https://docs.microsoft.com/en-us/azure/search/cognitive-search-concept-intro
 
 Before running this sample, you must have the following:
 
-* Install [Azure Core Tools version 2.x](functions-run-local.md#v2).
-
-* Install the [Azure CLI]( /cli/azure/install-azure-cli). This article requires the Azure CLI version 2.0 or later. Run `az --version` to find the version you have.  
+* Install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest). This article requires the Azure CLI version 2.0 or later. Run `az --version` to find the version you have.  
 You can also use the [Azure Cloud Shell](https://shell.azure.com/bash).
 
 
