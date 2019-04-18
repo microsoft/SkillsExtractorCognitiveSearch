@@ -286,7 +286,7 @@
     "outputs": {
         "skillsCognitiveSearchAPIUrl": {
             "type": "string",
-            "value": "[concat(variables('cog-search-function-app-name'), 'azurewebsites.net/api/azure_cognitive_search' )]"
+            "value": "[concat(variables('cog-search-function-app-name'), 'azurewebsites.net/api/azure_cognitive_search')]"
         },
         "searchAccountName": {
             "type": "string",

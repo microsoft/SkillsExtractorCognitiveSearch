@@ -4,11 +4,11 @@
     "parameters": {
         "prefixparam": {
             "type": "string",
-            "value": "jobs11"
+            "value": "jobs12"
         },
         "dockerImageName": {
             "type": "string",
-            "value": "kabirkhan14/azure-functions-skills-extractor"
+            "value": "mcr.microsoft.com/wwllab/skills/skills-extractor-cognitive-search"
         }
     }
 }

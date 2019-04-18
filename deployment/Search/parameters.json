@@ -1,9 +1,3 @@
 {
-    "storageAccountName":  "jobs11backendstorage",
-    "searchApiKey":  "8BA2971924F88998DA8955C0E23C299B",
-    "storageAccountConnectionString":  "DefaultEndpointsProtocol=https;AccountName=jobs11backendstorage;AccountKey=FSiOpnSb4VtPOMP2djyxx8GyUEVY5fT++TTTucp9xxgT5NKp4qWYMVNQmS/T0xnQ4rt8+HyhD3w2fIlF+utPJg==;EndpointSuffix=core.windows.net;",
-    "searchAccountName":  "jobs11search",
-    "cosmosDBConnectionString":  "AccountEndpoint=https://jobs11-db.documents.azure.com:443/;AccountKey=xyVAIbPXRnpQS3yyA0EoHQ0qTOWL1qe3I2b1PjpyoP64aLthCpgOPvuKabLGhaVo6in5KpI0vQ3ENUwAw8XbOQ==;Database=db;",
-    "cosmosDBAccountName":  "jobs11-db",
-    "cognitiveServiceAccountKey":  "b0da73c108204ba6bb31fb9eef759d7c"
+
 }
