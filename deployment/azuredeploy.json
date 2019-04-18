@@ -1,0 +1,324 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "prefixparam": {
+            "type": "string",
+            "minLength": 1
+        },
+        "dockerImageName": {
+            "type": "string",
+            "metadata": {
+                "description": "The image on your Docker hub account"
+            }
+        },
+        "functions-storage-account-sku": {
+            "type": "string",
+            "defaultValue": "Standard_LRS",
+            "allowedValues": [
+                "Standard_LRS",
+                "Premium_LRS"
+            ]
+        },
+        "dockerRegistryUrl": {
+            "type": "string",
+            "defaultValue": "https://index.docker.io"
+        },
+        "search-sku": {
+            "type": "string",
+            "defaultValue": "basic",
+            "allowedValues": [
+              "free",
+              "basic",
+              "standard",
+              "standard2",
+              "standard3"
+            ],
+            "metadata": {
+              "description": "The SKU of the search service you want to create. E.g. free or standard"
+            }
+        }
+    },
+    "variables": {
+        "cogsvc-account-name": "[concat(parameters('prefixparam'), '-cogsvc')]",
+        "cosmosdb-account-name": "[concat(parameters('prefixparam'), '-db')]",
+        "searchName": "[concat(parameters('prefixparam'), 'search')]",
+        "hosting-plan-name": "[concat(parameters('prefixparam'), '-app-service-plan')]",
+        "cog-search-function-app-name": "[concat(parameters('prefixparam'), '-cog-search-api')]",
+        "cog-search-application-insights-account-name": "[concat(parameters('prefixparam'), '-cog-search-insights')]",
+        "cog-search-functions-storage-account-name": "[concat(parameters('prefixparam'), 'cogsearchstorage')]",
+        "backend-function-app-name": "[concat(parameters('prefixparam'), '-backend-api')]",
+        "backend-application-insights-account-name": "[concat(parameters('prefixparam'), '-backend-insights')]",
+        "backend-functions-storage-account-name": "[concat(parameters('prefixparam'), 'backendstorage')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.CognitiveServices/accounts",
+            "apiVersion": "2016-02-01-preview",
+            "name": "[variables('cogsvc-account-name')]",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "S0"
+            },
+            "kind": "CognitiveServices",
+            "properties": {}
+        },
+        {
+            "name": "[variables('cosmosdb-account-name')]",
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "apiVersion": "2015-04-08",
+            "location": "[resourceGroup().location]",
+            "kind": "GlobalDocumentDB",
+            "properties": {
+              "name": "[variables('cosmosdb-account-name')]",
+              "locations": [
+                {
+                  "locationName": "[resourceGroup().location]",
+                  "failoverPriority": 0
+                }
+              ],
+              "databaseAccountOfferType": "Standard"
+            }
+        },
+        {
+            "apiVersion": "2015-08-19",
+            "name": "[variables('searchName')]",
+            "type": "Microsoft.Search/searchServices",
+            "location": "[resourceGroup().location]",
+            "sku": {
+              "name": "[toLower(parameters('search-sku'))]"
+            },
+            "properties": {
+              "replicaCount": 1,
+              "partitionCount": 1,
+              "hostingMode": "default"
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "kind": "linux",
+            "name": "[variables('hosting-plan-name')]",
+            "apiVersion": "2015-08-01",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "Y1",
+                "tier": "Dynamic",
+                "size": "Y1",
+                "family": "Y",
+                "capacity": 0
+            },
+            "properties": {
+                "name": "[variables('hosting-plan-name')]"
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[variables('cog-search-function-app-name')]",
+            "type": "Microsoft.Web/sites",
+            "properties": {
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+                            "value": "false"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_URL",
+                            "value": "[parameters('dockerRegistryUrl')]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('cog-search-functions-storage-account-name'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cog-search-functions-storage-account-name')), '2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "10.14.1"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(concat('Microsoft.Insights/components/', variables('cog-search-application-insights-account-name')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "DOCKER_ENABLE_CI",
+                            "value": "true"
+                        },
+                        {
+                            "name": "DOCKER_CUSTOM_IMAGE_NAME",
+                            "value": "[parameters('dockerImageName')]"
+                        }
+                    ],
+                    "appCommandLine": "",
+                    "linuxFxVersion": "[concat('DOCKER|', parameters('dockerImageName'))]"
+                },
+                "name": "[variables('cog-search-function-app-name')]",
+                "clientAffinityEnabled": false,
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hosting-plan-name'))]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('cog-search-functions-storage-account-name'))]",
+                "[concat('Microsoft.Insights/components/', variables('cog-search-application-insights-account-name'))]"
+            ],
+            "apiVersion": "2016-03-01",
+            "location": "[resourceGroup().location]",
+            "kind": "functionapp"
+        },
+        {
+            "name": "[variables('cog-search-functions-storage-account-name')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2016-01-01",
+            "sku": {
+                "name": "[parameters('functions-storage-account-sku')]"
+            },
+            "dependsOn": [],
+            "tags": {
+                "displayName": "FUNCTIONS-STORAGE-ACCOUNT"
+            },
+            "kind": "Storage"
+        },
+        {
+            "apiVersion": "2015-05-01",
+            "name": "[variables('cog-search-application-insights-account-name')]",
+            "type": "Microsoft.Insights/components",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "ApplicationId": "[variables('cog-search-function-app-name')]"
+            }
+        },
+        {
+            "name": "[variables('backend-function-app-name')]",
+            "type": "Microsoft.Web/sites",
+            "properties": {
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+                            "value": "false"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_URL",
+                            "value": "[parameters('dockerRegistryUrl')]"
+                        },
+                        {
+                            "name": "AzureWebJobsStorage",
+                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('backend-functions-storage-account-name'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('backend-functions-storage-account-name')), '2015-05-01-preview').key1)]"
+                        },
+                        {
+                            "name": "FUNCTIONS_EXTENSION_VERSION",
+                            "value": "~2"
+                        },
+                        {
+                            "name": "FUNCTIONS_WORKER_RUNTIME",
+                            "value": "python"
+                        },
+                        {
+                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "10.14.1"
+                        },
+                        {
+                            "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                            "value": "[reference(concat('Microsoft.Insights/components/', variables('backend-application-insights-account-name')), '2015-05-01').InstrumentationKey]"
+                        },
+                        {
+                            "name": "COSMOS_DB_CONNECTION_STRING",
+                            "value": "[concat('AccountEndpoint=https://', variables('cosmosdb-account-name'), '.documents.azure.com:443/;AccountKey=', listkeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosdb-account-name')), '2015-04-08').primaryMasterKey, ';')]"
+                        },
+                        {
+                            "name": "CosmosJobsCollectionName",
+                            "value": "jobs"
+                        },
+                        {
+                            "name": "AZURE_SEARCH_ACCOUNT_NAME",
+                            "value": "[variables('searchName')]"
+                        },
+                        {
+                            "name": "AZURE_SEARCH_API_KEY",
+                            "value": "[listAdminKeys(resourceId('Microsoft.Search/searchServices', variables('searchName')), '2015-08-19').primaryKey]"
+                        },
+                        {
+                            "name": "SKILLS_EXTRACTOR_URL",
+                            "value": "https://skillsextractorcognitivesearch.azurewebsites.net/api/extract_skills?code=7OYS4CeD48c0VVil45bdnQy1GL4d29/DYpG4OLAMGsGCMwZIFfM9qw=="
+                        }
+                    ],
+                    "appCommandLine": "",
+                    "linuxFxVersion": "[concat('DOCKER|', parameters('dockerImageName'))]"
+                },
+                "name": "[variables('backend-function-app-name')]",
+                "clientAffinityEnabled": false,
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hosting-plan-name'))]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('backend-functions-storage-account-name'))]",
+                "[concat('Microsoft.Insights/components/', variables('backend-application-insights-account-name'))]"
+            ],
+            "apiVersion": "2016-03-01",
+            "location": "[resourceGroup().location]",
+            "kind": "functionapp"
+        },
+        {
+            "name": "[variables('backend-functions-storage-account-name')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2016-01-01",
+            "sku": {
+                "name": "[parameters('functions-storage-account-sku')]"
+            },
+            "dependsOn": [],
+            "tags": {
+                "displayName": "FUNCTIONS-STORAGE-ACCOUNT"
+            },
+            "kind": "Storage"
+        },
+        {
+            "apiVersion": "2015-05-01",
+            "name": "[variables('backend-application-insights-account-name')]",
+            "type": "Microsoft.Insights/components",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "ApplicationId": "[variables('backend-function-app-name')]"
+            }
+        }
+    ],
+    "outputs": {
+        "skillsCognitiveSearchAPIUrl": {
+            "type": "string",
+            "value": "[concat(variables('cog-search-function-app-name'), 'azurewebsites.net/api/azure_cognitive_search' )]"
+        },
+        "searchAccountName": {
+            "type": "string",
+            "value": "[variables('searchName')]"
+        },
+        "searchApiKey": {
+            "type": "string",
+            "value": "[listAdminKeys(resourceId('Microsoft.Search/searchServices', variables('searchName')), '2015-08-19').primaryKey]"
+        },
+        "cosmosDBConnectionString": {
+            "type": "string",
+            "value": "[concat('AccountEndpoint=https://', variables('cosmosdb-account-name'), '.documents.azure.com:443/;AccountKey=', listkeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosdb-account-name')), '2015-04-08').primaryMasterKey, ';Database=db;')]"
+        },
+        "cosmosDBAccountName": {
+            "type": "string",
+            "value": "[variables('cosmosdb-account-name')]"
+        },
+        "storageAccountConnectionString": {
+            "type": "string",
+            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('backend-functions-storage-account-name'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('backend-functions-storage-account-name')), '2015-05-01-preview').key1, ';EndpointSuffix=core.windows.net;')]"
+        },
+        "storageAccountName": {
+            "type": "string",
+            "value": "[variables('backend-functions-storage-account-name')]"
+        },
+        "storageAccountKey": {
+            "type": "string",
+            "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('backend-functions-storage-account-name')), '2015-05-01-preview').key1]"
+        },
+        "cognitiveServiceAccountKey": {
+            "type": "string",
+            "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('cogsvc-account-name')), '2016-02-01-preview').key1]"
+        }
+    }
+}

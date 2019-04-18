@@ -1,0 +1,32 @@
+{
+    "description": "Extract skills mentioned in a job description",
+    "skills": [
+		{
+            "@odata.type": "#Microsoft.Skills.Custom.WebApiSkill",
+            "name": "jobsextractskills",
+            "description": "This skill extracts skills mentioned in the job description",
+            "uri": "https://skillsextractorcognitivesearch.azurewebsites.net/api/azure_cognitive_search?code=YCadZKK67vDm28NCXhdyL3Ma0Q/w89QI1ZRKEtpeqrQ9MxUFMd3ssQ==&skill_property=name",
+            "httpMethod": "POST",
+            "timeout": "PT90S",
+            "batchSize": 100,
+            "context": "/document",
+            "inputs": [
+                {
+                    "name": "text",
+                    "source": "/document/description"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "skills",
+                    "targetName": "skills"
+                }
+            ]
+        }
+    ],
+    "cognitiveServices": {
+        "@odata.type": "#Microsoft.Azure.Search.CognitiveServicesByKey",
+        "description": "cogsvc",
+        "key": "[cognitive_services_api_key]"
+    }
+}

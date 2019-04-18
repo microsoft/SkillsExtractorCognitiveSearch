@@ -1,0 +1,22 @@
+{
+    "name": "resumes",
+    "description": "Index Resumes uploaded to blob storage",
+    "dataSourceName": "resumes",
+    "targetIndexName": "resumes",
+    "skillsetName": "resumesextractskills",
+    "schedule": {
+        "interval": "PT1H",
+        "startTime": "0001-01-01T00:00:00Z"
+    },
+    "outputFieldMappings": [
+        {
+            "sourceFieldName": "/document/skills",
+            "targetFieldName": "skills"
+        }
+    ],
+    "parameters": {
+        "configuration": {
+            "imageAction": "generateNormalizedImages"
+        }
+    }
+}

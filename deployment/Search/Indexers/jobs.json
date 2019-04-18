@@ -1,0 +1,17 @@
+{
+    "name": "jobs",
+    "description": "Index Jobs from Jobs Data Source. Extract Skills using the jobs_skills Cognitive Skillset",
+    "dataSourceName": "jobs",
+    "targetIndexName": "jobs",
+    "skillsetName": "jobsextractskills",
+    "schedule": {
+        "interval": "PT1H",
+        "startTime": "0001-01-01T00:00:00Z"
+    },
+    "outputFieldMappings": [
+        {
+            "sourceFieldName": "/document/skills",
+            "targetFieldName": "skills"
+        }
+    ]
+}

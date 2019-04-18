@@ -1,0 +1,19 @@
+{
+    "name": "resumes",
+    "description": "Blob Storage Container where Resumes are Uploaded",
+    "type": "azureblob",
+    "subtype": null,
+    "credentials": {
+        "connectionString": "[storage_account_connection_string]"
+    },
+    "container": {
+        "name": "resumes",
+        "query": null
+    },
+    "dataChangeDetectionPolicy": null,
+    "dataDeletionDetectionPolicy": {
+        "@odata.type": "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy",
+        "softDeleteColumnName": "__SOFT__DELETED__",
+        "softDeleteMarkerValue": "true"
+    }
+}

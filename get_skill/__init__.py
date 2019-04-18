@@ -5,7 +5,7 @@ import azure.functions as func
 import srsly
 
 
-skills = srsly.read_json("_data/skills.json")
+skills = srsly.read_json("data/skills.json")
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:

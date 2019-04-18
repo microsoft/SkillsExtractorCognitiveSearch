@@ -13,7 +13,7 @@ class SkillsExtractor:
     def __init__(
         self,
         nlp: Language,
-        data_path: Path = Path("_data"),
+        data_path: Path = Path("data"),
         query: bool = False,
     ):
         self.nlp = nlp
@@ -58,7 +58,7 @@ class SkillsExtractor:
                 aliases = skill_info['aliases']
                 sources = skill_info['sources']
                 skill_names = set()
-                for al in aliases[skill_id]:
+                for al in aliases:
                     skill_names.add(al)
                 for source in sources:
                     if "displayName" in source:

@@ -1,0 +1,19 @@
+{
+    "name": "jobs",
+    "description": "datasource for the careers collection",
+    "type": "documentdb",
+    "subtype": null,
+    "credentials": {
+        "connectionString": "[cosmos_db_connection_string]"
+    },
+    "container": {
+        "name": "jobs",
+        "query": null
+    },
+    "dataChangeDetectionPolicy": null,
+    "dataDeletionDetectionPolicy": {
+        "@odata.type": "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy",
+        "softDeleteColumnName": "__SOFT__DELETED__",
+        "softDeleteMarkerValue": "true"
+    }
+}

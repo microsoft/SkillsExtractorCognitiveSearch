@@ -1,0 +1,77 @@
+{
+    "description": "Extract all text from the resume into merged_content to extract skills from.",
+    "skills": [
+        {
+            "description": "Extract text (plain and structured) from image.",
+            "@odata.type": "#Microsoft.Skills.Vision.OcrSkill",
+            "context": "/document/normalized_images/*",
+            "defaultLanguageCode": "en",
+            "detectOrientation": true,
+            "inputs": [
+                {
+                    "name": "image",
+                    "source": "/document/normalized_images/*"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "text"
+                }
+            ]
+        },
+        {
+            "@odata.type": "#Microsoft.Skills.Text.MergeSkill",
+            "description": "Create merged_text, which includes all the textual representation of each image inserted at the right location in the content field.",
+            "context": "/document",
+            "insertPreTag": " ",
+            "insertPostTag": " ",
+            "inputs": [
+                {
+                    "name":"text",
+                    "source": "/document/content"
+                },
+                {
+                    "name": "itemsToInsert",
+                    "source": "/document/normalized_images/*/text"
+                },
+                {
+                    "name":"offsets",
+                    "source": "/document/normalized_images/*/contentOffset"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "mergedText",
+                    "targetName" : "merged_content"
+                }
+            ]
+        },
+		{
+            "@odata.type": "#Microsoft.Skills.Custom.WebApiSkill",
+            "name": "resumesextractskills",
+            "description": "This skill extracts skills mentioned in the job description",
+            "uri": "https://skillsextractorcognitivesearch.azurewebsites.net/api/azure_cognitive_search?code=YCadZKK67vDm28NCXhdyL3Ma0Q/w89QI1ZRKEtpeqrQ9MxUFMd3ssQ==&skill_property=name",
+            "httpMethod": "POST",
+            "timeout": "PT90S",
+            "batchSize": 100,
+            "context": "/document",
+            "inputs": [
+                {
+                    "name": "text",
+                    "source": "/document/merged_content"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "skills",
+                    "targetName": "skills"
+                }
+            ]
+		}
+    ],
+    "cognitiveServices": {
+        "@odata.type": "#Microsoft.Azure.Search.CognitiveServicesByKey",
+        "description": "cogsvc",
+        "key": "[cognitive_services_api_key]"
+    }
+}
