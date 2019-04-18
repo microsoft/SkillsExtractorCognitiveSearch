@@ -4,7 +4,7 @@
     "parameters": {
         "prefixparam": {
             "type": "string",
-            "value": "jobs12"
+            "value": "{YOUR_PREFIX_HERE}"
         },
         "dockerImageName": {
             "type": "string",
