@@ -1,24 +1,22 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 from collections import defaultdict
 from pathlib import Path
 
+import srsly
+from spacy.lang.en.stop_words import STOP_WORDS
 from spacy.language import Language
 from spacy.pipeline import EntityRuler
-from spacy.lang.en.stop_words import STOP_WORDS
-import srsly
 
 
 class SkillsExtractor:
-    """Extracts skills from text"""
+    """Extracts skills from text using SpaCy's EntityRuler Component"""
 
-    def __init__(
-        self,
-        nlp: Language,
-        data_path: Path = Path("data"),
-        query: bool = False,
-    ):
+    def __init__(self, nlp: Language, data_path: Path = Path("data")):
         self.nlp = nlp
         self.data_path = data_path
-        self.skills = self._get_skills(query=query)
+        self.skills = self._get_skills()
 
         patterns = self._build_patterns(self.skills)
         ruler = EntityRuler(nlp, overwrite_ents=True)
@@ -26,7 +24,7 @@ class SkillsExtractor:
         if not self.nlp.has_pipe("skills_ruler"):
             self.nlp.add_pipe(ruler, name="skills_ruler")
 
-    def _get_skills(self, query: bool = False):
+    def _get_skills(self):
         """Query skills from skills collection"""
         skills_path = self.data_path/"skills.json"
         skills = srsly.read_json(skills_path)
@@ -48,6 +46,7 @@ class SkillsExtractor:
         return pattern
 
     def _build_patterns(self, skills: list, create: bool = False):
+        """Build all matcher patterns"""
         patterns_path = self.data_path/"skill_patterns.jsonl"
         if not patterns_path.exists() or create:
             """Build up lists of spacy token patterns for matcher"""
@@ -95,7 +94,7 @@ class SkillsExtractor:
             return patterns
 
     def extract_skills(self, text: str):
-        """Extract skills from text"""
+        """Extract skills from text unstructured text"""
         doc = self.nlp(text)
         found_skills = defaultdict(lambda: defaultdict(list))
 

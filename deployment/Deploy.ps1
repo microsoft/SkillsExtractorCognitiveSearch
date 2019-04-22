@@ -29,4 +29,4 @@ Invoke-Expression -command "az cosmosdb collection create --name $cosmosDBAccoun
 write-host "Creating Azure Storage resumes container"
 Invoke-Expression -command "az storage container create --account-name $storageAccountName --account-key $storageAccountKey --name resumes"
 
-# & .\UploadSearchConfiguration.ps1 @searchConfigParams
+& .\UploadSearchConfiguration.ps1 @searchConfigParams

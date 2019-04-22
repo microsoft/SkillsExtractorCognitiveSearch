@@ -1,5 +1,9 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 from enum import Enum
 from typing import List, Optional
+
 from pydantic import BaseModel, Schema
 
 
@@ -8,31 +12,30 @@ class SkillProperty(str, Enum):
     name = "standardizedName"
 
 
-# Azure Search Cognitive Skills Models
-class AzureSearchDocumentDataRequest(BaseModel):
+class RecordDataRequest(BaseModel):
     text: str
     language: str = "en"
 
 
-class AzureSearchDocumentRequest(BaseModel):
+class RecordRequest(BaseModel):
     recordId: str
-    data: AzureSearchDocumentDataRequest
+    data: RecordDataRequest
 
 
-class AzureSearchDocumentsRequest(BaseModel):
-    values: List[AzureSearchDocumentRequest]
+class RecordsRequest(BaseModel):
+    values: List[RecordRequest]
 
 
-class AzureSearchDocumentDataResponse(BaseModel):
+class RecordDataResponse(BaseModel):
     skills: List[str]
 
 
-class AzureSearchDocumentResponse(BaseModel):
+class RecordResponse(BaseModel):
     recordId: str
-    data: AzureSearchDocumentDataResponse
+    data: RecordDataResponse
     errors: Optional[List[str]]
     warnings: Optional[List[str]]
 
 
-class AzureSearchDocumentsResponse(BaseModel):
-    values: List[AzureSearchDocumentResponse]
+class RecordsResponse(BaseModel):
+    values: List[RecordResponse]

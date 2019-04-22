@@ -1,22 +1,30 @@
 # Introduction
 
-The Skills Extractor API is a Named Entity Recognition (NER) tool that takes text input, extracts entities related to skills, then matches concepts mentioned in text to metadata about skills and returns a list of skills from that text.
+The Skills Extractor is a Named Entity Recognition (NER) model that takes text as input, extracts skill entities from that text, then matches these skills to a knowledge base (in this sample a simple JSON file) containing metadata on each skill. It then returns a flat list of the skills identified.
 
-## What is a Skill?
+## Definitions
+
+### What is a Cognitive Skill
+A Cognitive Skill is a Feature of Azure Search designed to Augment data in a search index.
+
+### What is a Skill in terms of the Skills Extractor Service?
+A Skill is a Technical Concept/Tool or a Business related/Personal attribute.
+
+Example skills:
+Machine Learning, Artificial Intelligence, PyTorch, Business, Advertising
+
 For the current goals of the service, we are focused on technical skills. Technical skills are the abilities and knowledge needed to perform specific tasks. They are practical, and often relate to mechanical, information technology, mathematical, or scientific tasks. 
 The Taxonomies the API pulls from primarily consist of concepts and tools related to technology. For example, Programming Languages are considered a higher-level technical skill, and C# or Python are a sub of that larger skill.
 
-More examples of Skills:
-Machine Learning, Artificial Intelligence, PyTorch, Business, Advertising
+> P.S. Sorry for the confusing naming.
 
 ## Skill Sources 
 
-We pull skills and technologies from many open online sources and build [Record Linkage](https://github.com/dedupeio/dedupe-examples/tree/master/record_linkage_example) models to conflate skills and categories across each source into a single [Knowledge Graph](https://hackernoon.com/wtf-is-a-knowledge-graph-a16603a1a25f).
+We pull skills and technologies from many open online sources and build [Record Linkage](https://github.com/dedupeio/dedupe-examples/tree/master/record_linkage_example) models to conflate skills and categories across each source into a single [Knowledge Graph](https://en.wikipedia.org/wiki/Knowledge_Graph).
 
 Here is a list of our sources: 
 * [Coursera](https://www.coursera.org/gsi/)
 * [Microsoft Academic Graph](https://academic.microsoft.com/topics)
-* [LinkedIn Learning](https://www.linkedin.com/learning/me/skills)
 * [GitHub Featured Topics](https://github.com/topics)
 * [StackShare Tools](https://stackshare.io/categories)
 * [Class Central Subjects Github](https://github.com/classcentral/online-course-taxonomy)
@@ -45,6 +53,13 @@ https://docs.microsoft.com/en-us/azure/search/cognitive-search-concept-intro
 
 * [Extract Skills from an Existing Search Index](docs/existing_search_index.md)
 * [Use the sample Search Scenario of extracting Skills from Jobs and Resumes](docs/sample_search_scenario.md)
+
+
+### Create your own Custom Cognitive Skill
+
+If you would like to create your own Custom Skill leveraging the NLP power of the Python Ecosystem you can use this cookiecutter project to bootstrap a containerized API to deploy in your own infrastructure.
+
+https://github.com/Microsoft/cookiecutter-azure-search-cognitive-skill
 
 # Contributing
 

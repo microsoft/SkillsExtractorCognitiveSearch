@@ -71,6 +71,71 @@ az functionapp config appsettings set --name <app_name> \
 AzureWebJobsStorage=$storageConnectionString
 ```
 
+> It can take up to 20 minutes (usually around 5) for your function app to deploy this Docker Image.
+
+# Test your Azure Function. 
+
+## Get the Function Url from the Azure Portal
+
+Open the [Azure Portal](https://portal.azure.com) and navigate to the function app you created to in the previous step.
+
+Click Get Function URL
+
+![Click the Get Function Url Button](media/get_function_url_btn.jpg)
+
+And copy the Function URL
+
+![Click the Get Function Url Button](media/function_url.jpg)
+
+## Run the following HTTP Request
+
+```http
+POST {YOUR_FUNCTION_URL_WITH_CODE}
+Content-Type: application/json
+```
+```json
+{
+    "values": [
+        {
+            "recordId": "a3",
+            "data": {
+                "text": "Azure Machine Learning team is a fast-paced product group within the Microsoft Artificial Intelligence & Research organization. We are building the Machine Learning development platform that will make it easy for all data scientists and AI Developers to create and deploy robust, scalable and highly available machine learning solutions on the cloud, using the best of the open source ecosystem and innovation from inside the company and the latest breakthroughs in research We are looking for a Principal Program Manager who is passionate about delivering a highly available and reliable cloud platform that will transform the data science and machine learning experience. Come to build out and lead the Artificial Intelligence/Machine/Deep Learning investments, define innovative experiences for data science, and extend the state of the art in deep learning performance and efficiency in the industry. We are looking for a creative and technically minded product visionary with expertise in building and shipping large scale user experiences. A strong performer that can lead our UX efforts and drive cross-team initiatives to address major customer needs. Responsibilities In this role you will be responsible for leading the development of our Azure Machine Learning Web UX and drive our journey to modernize the appearance combining the different AML properties into one portal UX. You’ll help define the roadmap and the vision for our next generation of data science web experiences. You will be working closely with design and research counterparts to invent great data science experiences and lead the development team to deliver these modern experiences to our highly engaged customers. You will work with teams across the org to make this experience simple, reliable, fast and coherent with the other Microsoft AI products. Qualifications Have experience in building and leading teams and driving large cross team efforts.Have a track record in building and shipping products with an emphasis on UX.Are equally comfortable articulating the big picture and refining the small details.Are customer and data obsessed, always learning and refining your features to deliver maximum business impact. Have a BS Degree in Engineering, Computer Science, or similar degree. 7+ years of Product or Program Management experience. #AIPLATFORM##AIPLATREF#",
+                "language": "en"
+            }
+        }
+   ]
+}
+```
+
+You should see a response that looks like this:
+
+```json
+{
+    "values": [
+        {
+            "recordId": "a3",
+            "data": {
+                "skills": [
+                    "Artificial intelligence",
+                    "Azure Machine Learning",
+                    "Business",
+                    "Computer science",
+                    "Data science",
+                    "Deep learning",
+                    "Design",
+                    "Engineering",
+                    "Machine learning"
+                ]
+            },
+            "errors": null,
+            "warnings": null
+        }
+    ]
+}
+```
+
+Now let's setup an indexer to add these extracted skills to your search index
+
 # Create a new Cognitive Skill in Azure Search
 
 > For the full documentation on integrating custom cognitive skills see:
@@ -78,7 +143,7 @@ https://docs.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-inte
 
 ## Add a `skills` field to your search index
 
-Open your search index in the Azure Portal and add a new field with a skills field.
+Open your search index in the Azure Portal and add a new field with the name `skills`.
 You can also update your search index using the Azure Search REST API docs here:
 https://docs.microsoft.com/en-us/azure/search/search-what-is-an-index
 
@@ -96,8 +161,7 @@ Click Get Function URL
 
 And copy the Function URL
 
-
-![Click the Get Function Url Button](docs/media/function_url.jpg)
+![Click the Get Function Url Button](media/function_url.jpg)
 
 
 ## Create a new skillset in Azure Search that points to your function url
@@ -107,7 +171,7 @@ Change content `"source": "document/content"` to the attribute that has the most
 For Example: `"source": "document/description"` if you have a `description` attribute for each document in your search index.
 
 ```http
-PUT https://[servicename].search.windows.net/skillsets/extractSkills?api-version=2017-11-11-Preview
+PUT https://[servicename].search.windows.net/skillsets/extractskills?api-version=2017-11-11-Preview
 api-key: [admin key]
 Content-Type: application/json
 ```
@@ -150,7 +214,7 @@ Content-Type: application/json
     "name": "myIndexer",
     "dataSourceName": "myDataSource",
     "targetIndexName": "myIndex",
-    "skillsetName": "extractSkills",
+    "skillsetName": "extractskills",
     "outputFieldMappings": [
         {
             "sourceFieldName": "/document/skills",
