@@ -2,6 +2,7 @@
 # Licensed under the MIT License.
 
 from collections import defaultdict
+import itertools
 from pathlib import Path
 
 import srsly
@@ -19,8 +20,9 @@ class SkillsExtractor:
         self.skills = self._get_skills()
 
         patterns = self._build_patterns(self.skills)
+        extra_patterns = self._get_extra_skill_patterns()
         ruler = EntityRuler(nlp, overwrite_ents=True)
-        ruler.add_patterns(patterns)
+        ruler.add_patterns(itertools.chain(patterns, extra_patterns))
         if not self.nlp.has_pipe("skills_ruler"):
             self.nlp.add_pipe(ruler, name="skills_ruler")
 
@@ -29,6 +31,12 @@ class SkillsExtractor:
         skills_path = self.data_path/"skills.json"
         skills = srsly.read_json(skills_path)
         return skills
+    
+    def _get_extra_skill_patterns(self):
+        """Load extra user added skill patterns"""
+        extra_patterns_path = self.data_path/"extra_skill_patterns.jsonl"
+        extra_skill_patterns = srsly.read_jsonl(extra_patterns_path)
+        return extra_skill_patterns
 
     def _skill_pattern(self, skill: str, split_token: str = None):
         """Create a single skill pattern"""
@@ -38,10 +46,11 @@ class SkillsExtractor:
         else:
             split = skill.split()
         for b in split:
-            if b.upper() == skill:
-                pattern.append({"TEXT": b})
-            else:
-                pattern.append({"LOWER": b.lower()})
+            if b:
+                if b.upper() == skill:
+                    pattern.append({"TEXT": b})
+                else:
+                    pattern.append({"LOWER": b.lower()})
 
         return pattern
 
@@ -102,24 +111,6 @@ class SkillsExtractor:
             if "|" in ent.label_:
                 ent_label, skill_id = ent.label_.split("|")
                 if ent_label == "SKILL" and skill_id:
-                    skill_info = self.skills[skill_id]
-                    sources = skill_info['sources']
-
-                    # Some sources have better Skill Descriptions than others.
-                    # This is a simple heuristic for cascading through the sources 
-                    # to pick the best description available per skill
-                    main_source = sources[0]
-                    for source in sources:
-                        if source["sourceName"] == "Github Topics":
-                            main_source = source
-                            break
-                        elif source["sourceName"] == "Microsoft Academic Topics":
-                            main_source = source
-                            break
-                        elif source["sourceName"] == "Stackshare Skills":
-                            main_source = source
-                            break
-
                     found_skills[skill_id]["matches"].append(
                         {
                             "start": ent.start_char,
@@ -128,6 +119,34 @@ class SkillsExtractor:
                             "text": ent.text,
                         }
                     )
+                    try:
+                        skill_info = self.skills[skill_id]
+                        sources = skill_info['sources']
+
+                        # Some sources have better Skill Descriptions than others.
+                        # This is a simple heuristic for cascading through the sources 
+                        # to pick the best description available per skill
+                        main_source = sources[0]
+                        for source in sources:
+                            if source["sourceName"] == "Github Topics":
+                                main_source = source
+                                break
+                            elif source["sourceName"] == "Microsoft Academic Topics":
+                                main_source = source
+                                break
+                            elif source["sourceName"] == "Stackshare Skills":
+                                main_source = source
+                                break
+                    except KeyError:
+                        # This happens when a pattern defined in data/extra_skill_patterns.jsonl
+                        # is matched. The skill is not added to data/skills.json so there's no
+                        # extra metadata about the skill from an established source.
+                        sources = []
+                        main_source = {
+                            "displayName": ent.text,
+                            "shortDescription": "",
+                            "longDescription": ""
+                        }
 
                     keys = ["displayName", "shortDescription", "longDescription"]
                     for k in keys:

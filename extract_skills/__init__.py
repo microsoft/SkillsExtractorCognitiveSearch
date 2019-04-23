@@ -17,7 +17,7 @@ skills_extractor = SkillsExtractor(nlp)
 
 
 async def extract_from_record(
-    doc: RecordRequest, skill_property: str = "id"
+    record: RecordRequest, skill_property: str = "id"
 ):
     """Extract Skills from a single RecordRequest"""
     extracted_skills = skills_extractor.extract_skills(record.data.text)
@@ -29,7 +29,7 @@ async def extract_from_record(
             skills.add(skill_id)
 
     return {
-        "recordId": doc.recordId,
+        "recordId": record.recordId,
         "data": {"skills": sorted(list(skills))},
         "warnings": None,
         "errors": None,
@@ -96,6 +96,6 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
         logging.info(f"Extracting Skills from {len(body.values)} Records.")
 
         response_headers = {"Content-Type": "application/json"}
-        values_res = await extract_from_docs(body.values, skill_property)
+        values_res = await extract_from_records(body.values, skill_property)
 
         return func.HttpResponse(values_res.json(), headers=response_headers)

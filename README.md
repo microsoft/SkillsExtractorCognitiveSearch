@@ -4,10 +4,10 @@ The Skills Extractor is a Named Entity Recognition (NER) model that takes text a
 
 ## Definitions
 
-### What is a Cognitive Skill
+### What is a Cognitive Skill?
 A Cognitive Skill is a Feature of Azure Search designed to Augment data in a search index.
 
-### What is a Skill in terms of the Skills Extractor Service?
+### What is a Skill in terms of the Skills Extractor?
 A Skill is a Technical Concept/Tool or a Business related/Personal attribute.
 
 Example skills:
