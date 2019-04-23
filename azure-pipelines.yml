@@ -2,7 +2,11 @@ pool:
   vmImage: 'Ubuntu 16.04'
 
 steps:
-- script: docker login "$(ACR_REGISTRY)" -u "$(ACR_USER)" -p "$(ACR_PASSWORD)"
+- script: docker login $ACR_REGISTRY -u $ACR_USER -p "$ACR_PASSWORD"
+  env:
+    ACR_REGISTRY: $(ACR_REGISTRY)
+    ACR_USER: $(ACR_USER)
+    ACR_PASSWORD: $(ACR_PASSWORD)
   displayName: Docker Login
 - script: docker build . -t "$(DOCKER_IMAGE_NAME)"
   displayName: Docker Build
