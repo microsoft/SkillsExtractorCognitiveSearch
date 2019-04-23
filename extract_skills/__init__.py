@@ -20,20 +20,33 @@ async def extract_from_record(
     record: RecordRequest, skill_property: str = "id"
 ):
     """Extract Skills from a single RecordRequest"""
-    extracted_skills = skills_extractor.extract_skills(record.data.text)
-    skills = set()
-    for skill_id, skill_info in extracted_skills.items():
-        if skill_property == "name":
-            skills.add(skill_info["displayName"])
-        else:
-            skills.add(skill_id)
 
-    return {
+    res = {
         "recordId": record.recordId,
-        "data": {"skills": sorted(list(skills))},
+        "data": {"skills": []},
         "warnings": None,
         "errors": None,
     }
+
+    if len(record.data.text) == 0:
+        res['warnings'] = [{"message": "Record text is empty."}]
+    else:
+        try:
+            extracted_skills = skills_extractor.extract_skills(record.data.text)
+            skills = set()
+            for skill_id, skill_info in extracted_skills.items():
+                if skill_property == "name":
+                    skills.add(skill_info["displayName"])
+                else:
+                    skills.add(skill_id)
+            if skills:
+                res['data']['skills'] = sorted(list(skills))
+            else:
+                res['warnings'] = [{"message": "No skills found."}]
+        except ValueError as e:
+            res['errors'] = [{"message": f"There was an error parsing this record. Error: {e.message}"}]
+    
+    return res
 
 
 async def extract_from_records(
@@ -46,7 +59,6 @@ async def extract_from_records(
         results.append(result)
 
     res = await asyncio.gather(*results)
-
     values_res = {"values": res}
 
     return RecordsResponse(**values_res)

@@ -30,11 +30,14 @@ class RecordDataResponse(BaseModel):
     skills: List[str]
 
 
+class ResponseMessage(BaseModel):
+    message: str
+
 class RecordResponse(BaseModel):
     recordId: str
     data: RecordDataResponse
-    errors: Optional[List[str]]
-    warnings: Optional[List[str]]
+    errors: Optional[List[ResponseMessage]]
+    warnings: Optional[List[ResponseMessage]]
 
 
 class RecordsResponse(BaseModel):
