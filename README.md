@@ -61,6 +61,10 @@ If you would like to create your own Custom Skill leveraging the NLP power of th
 
 https://github.com/Microsoft/cookiecutter-azure-search-cognitive-skill
 
+### Feedback & Support 
+We’re eager to improve, so please take a couple of minutes to answer some questions about your experience https://aka.ms/AA4xoy5.
+For support, please contact: WWL_Skills_Service@microsoft.com
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
