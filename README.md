@@ -44,6 +44,11 @@ Before running this sample, you must have the following:
 * Install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest). This article requires the Azure CLI version 2.0 or later. Run `az --version` to find the version you have.  
 You can also use the [Azure Cloud Shell](https://shell.azure.com/bash).
 
+## Dependencies
+
+* SpaCy v2.1 - NLP in Python https://spacy.io
+* Azure Functions Python Worker - https://github.com/Azure/azure-functions-python-worker
+
 # Quickstart: Extract Skills for your data in Azure Search using a Custom Cognitive Skill
 
 If you're unfamiliar with Azure Search Cognitive Skills you can read more about them here:
@@ -51,15 +56,15 @@ https://docs.microsoft.com/en-us/azure/search/cognitive-search-concept-intro
 
 ### Follow one of the scenarios below
 
-* [Extract Skills from an Existing Search Index](docs/existing_search_index.md)
-* [Use the sample Search Scenario of extracting Skills from Jobs and Resumes](docs/sample_search_scenario.md)
+1. [Extract Skills from an Existing Search Index](docs/existing_search_index.md)
+2. [Use the sample Search Scenario of extracting Skills from Jobs and Resumes](docs/sample_search_scenario.md)
 
 
 ### Create your own Custom Cognitive Skill
 
 If you would like to create your own Custom Skill leveraging the NLP power of the Python Ecosystem you can use this cookiecutter project to bootstrap a containerized API to deploy in your own infrastructure.
 
-https://github.com/Microsoft/cookiecutter-azure-search-cognitive-skill
+<a href="https://github.com/Microsoft/cookiecutter-azure-search-cognitive-skill" target="_blank">https://github.com/Microsoft/cookiecutter-azure-search-cognitive-skill</a>
 
 ### Feedback & Support 
 We’re eager to improve, so please take a couple of minutes to answer some questions about your experience https://aka.ms/AA4xoy5.

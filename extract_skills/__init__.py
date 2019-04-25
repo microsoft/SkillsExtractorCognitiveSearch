@@ -71,27 +71,27 @@ async def main(req: func.HttpRequest) -> func.HttpResponse:
     Request Body:
     {
         "values": [
-                {
-                    "recordId": "a1",
-                    "data": {
-                        "text": "This Job will require expertise in Machine Learning and Data Analysis"
-                    }
+            {
+                "recordId": "a1",
+                "data": {
+                    "text": "This Job will require expertise in Machine Learning and Data Analysis"
                 }
+            }
         ]
     }
 
     Response:
     {
         "values": [
-                {
-                    "recordId": "a1",
-                    "data": {
-                        "skills": [
-                            "Machine Learning",
-                            "Data Analysis"
-                        ]
-                    }
+            {
+                "recordId": "a1",
+                "data": {
+                    "skills": [
+                        "Machine Learning",
+                        "Data Analysis"
+                    ]
                 }
+            }
         ]
     }
     """
