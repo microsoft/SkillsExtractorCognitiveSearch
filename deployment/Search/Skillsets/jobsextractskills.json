@@ -5,7 +5,7 @@
             "@odata.type": "#Microsoft.Skills.Custom.WebApiSkill",
             "name": "jobsextractskills",
             "description": "This skill extracts skills mentioned in the job description",
-            "uri": "https://skillsextractorcognitivesearch.azurewebsites.net/api/azure_cognitive_search?code=YCadZKK67vDm28NCXhdyL3Ma0Q/w89QI1ZRKEtpeqrQ9MxUFMd3ssQ==&skill_property=name",
+            "uri": "[extract_skills_function_url]",
             "httpMethod": "POST",
             "timeout": "PT90S",
             "batchSize": 100,
