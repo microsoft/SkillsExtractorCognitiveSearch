@@ -1,3 +1,22 @@
+> # Deprecation Notice
+> We've launched a better version of this service with Azure Cognitive Serivces - Text Analytics in the new V3 of the Named Entity Recognition (NER) endpoint. 
+
+> ## NER V3 Information
+> You can read more about this work and how to use it here:
+> * Calling the API - https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-entity-linking?tabs=version-3
+> * `Skill` Type information - https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/named-entity-types?tabs=general#skill
+
+> ## (NEW) Custom Entity Lookup Skill
+> Azure Cognitive Search recently introduced a new built-in Cognitive Skill that does essentially what this repository does. You provide a dictionary of terms you want to match and it will extract those for you from any text field in your search index. You can read more about that here: https://docs.microsoft.com/en-us/azure/search/cognitive-search-skill-custom-entity-lookup
+
+> ## Custom Cognitive Skill with Containers
+> This repo is no longer supported but you're free to use the index and skill definitions provided to enable the personalized job recommendations scenario. If you are just looking to deploy a container as a custom skill, I highly recommend utilizing this more generic cookiecutter repository: https://github.com/microsoft/cookiecutter-spacy-fastapi. We will continue to support this project.
+> For more information on deploying Containers on Azure see:
+> * [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service)
+> * [Azure Container Instances (ACI)](https://azure.microsoft.com/en-us/services/container-instances/)
+
+---
+
 # Introduction
 
 The Skills Extractor is a Named Entity Recognition (NER) model that takes text as input, extracts skill entities from that text, then matches these skills to a knowledge base (in this sample a simple JSON file) containing metadata on each skill. It then returns a flat list of the skills identified.
