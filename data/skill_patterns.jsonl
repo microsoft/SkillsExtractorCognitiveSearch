@@ -248,7 +248,6 @@
 {"label":"SKILL|business-administration","pattern":[{"LOWER":"business"},{"LOWER":"administration"}]}
 {"label":"SKILL|business-dashboards","pattern":[{"LOWER":"business"},{"LOWER":"dashboards"}]}
 {"label":"SKILL|business-intelligence","pattern":[{"LOWER":"business"},{"LOWER":"intelligence"}]}
-{"label":"SKILL|business-intelligence","pattern":[{"LOWER":"business"},{"LOWER":"intelligence"}]}
 {"label":"SKILL|business-process","pattern":[{"LOWER":"business"},{"LOWER":"process"}]}
 {"label":"SKILL|business-tools","pattern":[{"LOWER":"business"},{"LOWER":"tools"}]}
 {"label":"SKILL|c","pattern":[{"TEXT":"C++"}]}
@@ -322,7 +321,6 @@
 {"label":"SKILL|code-coverage","pattern":[{"LOWER":"code"},{"LOWER":"coverage"}]}
 {"label":"SKILL|code-generation","pattern":[{"LOWER":"code"},{"LOWER":"generation"}]}
 {"label":"SKILL|code-quality","pattern":[{"LOWER":"code"},{"LOWER":"quality"}]}
-{"label":"SKILL|code-review","pattern":[{"LOWER":"code"},{"LOWER":"review"}]}
 {"label":"SKILL|code-review","pattern":[{"LOWER":"code"},{"LOWER":"review"}]}
 {"label":"SKILL|codeanywhere","pattern":[{"LOWER":"codeanywhere"}]}
 {"label":"SKILL|codebook","pattern":[{"LOWER":"codebook"}]}
@@ -411,7 +409,6 @@
 {"label":"SKILL|contextual-query-language","pattern":[{"LOWER":"contextual"},{"LOWER":"query"},{"LOWER":"language"}]}
 {"label":"SKILL|contingency-table","pattern":[{"LOWER":"contingency"},{"LOWER":"table"}]}
 {"label":"SKILL|continuous-deployment","pattern":[{"LOWER":"continuous"},{"LOWER":"deployment"}]}
-{"label":"SKILL|continuous-integration","pattern":[{"LOWER":"continuous"},{"LOWER":"integration"}]}
 {"label":"SKILL|continuous-integration","pattern":[{"LOWER":"continuous"},{"LOWER":"integration"}]}
 {"label":"SKILL|continuum-design-consultancy","pattern":[{"LOWER":"continuum"},{"LOWER":"(design"},{"LOWER":"consultancy)"}]}
 {"label":"SKILL|control-engineering","pattern":[{"LOWER":"control"},{"LOWER":"engineering"}]}
@@ -866,7 +863,6 @@
 {"label":"SKILL|gsm","pattern":[{"TEXT":"GSM"}]}
 {"label":"SKILL|gtp","pattern":[{"TEXT":"GTP'"}]}
 {"label":"SKILL|gulp","pattern":[{"LOWER":"gulp"}]}
-{"label":"SKILL|gulp","pattern":[{"LOWER":"gulp"}]}
 {"label":"SKILL|gunicorn","pattern":[{"LOWER":"gunicorn"}]}
 {"label":"SKILL|guzzle","pattern":[{"LOWER":"guzzle"}]}
 {"label":"SKILL|hadoop","pattern":[{"LOWER":"hadoop"}]}
@@ -1195,7 +1191,6 @@
 {"label":"SKILL|mastodon","pattern":[{"LOWER":"mastodon"}]}
 {"label":"SKILL|matched-filter","pattern":[{"LOWER":"matched"},{"LOWER":"filter"}]}
 {"label":"SKILL|material","pattern":[{"LOWER":"material"}]}
-{"label":"SKILL|material-design","pattern":[{"LOWER":"material"},{"LOWER":"design"}]}
 {"label":"SKILL|material-design","pattern":[{"LOWER":"material"},{"LOWER":"design"}]}
 {"label":"SKILL|material-design-for-angular","pattern":[{"LOWER":"material"},{"LOWER":"design"},{"LOWER":"for"},{"LOWER":"angular"}]}
 {"label":"SKILL|material-design-for-bootstrap","pattern":[{"LOWER":"material"},{"LOWER":"design"},{"LOWER":"for"},{"LOWER":"bootstrap"}]}
@@ -1540,7 +1535,6 @@
 {"label":"SKILL|programming-language","pattern":[{"LOWER":"programming"},{"LOWER":"language"}]}
 {"label":"SKILL|programming-paradigm","pattern":[{"LOWER":"programming"},{"LOWER":"paradigm"}]}
 {"label":"SKILL|project-management","pattern":[{"LOWER":"project"},{"LOWER":"management"}]}
-{"label":"SKILL|project-management","pattern":[{"LOWER":"project"},{"LOWER":"management"}]}
 {"label":"SKILL|prolog","pattern":[{"LOWER":"prolog"}]}
 {"label":"SKILL|prometheus","pattern":[{"LOWER":"prometheus"}]}
 {"label":"SKILL|propagation-delay","pattern":[{"LOWER":"propagation"},{"LOWER":"delay"}]}
@@ -1852,7 +1846,6 @@
 {"label":"SKILL|spring","pattern":[{"LOWER":"spring"}]}
 {"label":"SKILL|spring-boot","pattern":[{"LOWER":"spring-boot"}]}
 {"label":"SKILL|spring-boot","pattern":[{"LOWER":"spring"},{"LOWER":"boot"}]}
-{"label":"SKILL|spring-boot","pattern":[{"LOWER":"spring"},{"LOWER":"boot"}]}
 {"label":"SKILL|spring-cloud","pattern":[{"LOWER":"spring"},{"LOWER":"cloud"}]}
 {"label":"SKILL|sql","pattern":[{"TEXT":"SQL"}]}
 {"label":"SKILL|sql-database-as-a-service","pattern":[{"LOWER":"sql"},{"LOWER":"database"},{"LOWER":"as"},{"LOWER":"a"},{"LOWER":"service"}]}
@@ -1881,7 +1874,6 @@
 {"label":"SKILL|stop-words","pattern":[{"LOWER":"stop"},{"LOWER":"words"}]}
 {"label":"SKILL|storm","pattern":[{"LOWER":"storm"}]}
 {"label":"SKILL|storybook","pattern":[{"LOWER":"storybook"}]}
-{"label":"SKILL|stream-processing","pattern":[{"LOWER":"stream"},{"LOWER":"processing"}]}
 {"label":"SKILL|stream-processing","pattern":[{"LOWER":"stream"},{"LOWER":"processing"}]}
 {"label":"SKILL|streams","pattern":[{"TEXT":"STREAMS"}]}
 {"label":"SKILL|stripe","pattern":[{"LOWER":"stripe"}]}
@@ -1938,7 +1930,6 @@
 {"label":"SKILL|template-matching","pattern":[{"LOWER":"template"},{"LOWER":"matching"}]}
 {"label":"SKILL|templating-languages--extensions","pattern":[{"LOWER":"templating"},{"LOWER":"languages"},{"LOWER":"&"},{"LOWER":"extensions"}]}
 {"label":"SKILL|temporal-database","pattern":[{"LOWER":"temporal"},{"LOWER":"database"}]}
-{"label":"SKILL|tensorflow","pattern":[{"LOWER":"tensorflow"}]}
 {"label":"SKILL|tensorflow","pattern":[{"LOWER":"tensorflow"}]}
 {"label":"SKILL|terminal","pattern":[{"LOWER":"terminal"}]}
 {"label":"SKILL|terraform","pattern":[{"LOWER":"terraform"}]}
@@ -2034,7 +2025,6 @@
 {"label":"SKILL|video-tracking","pattern":[{"LOWER":"video"},{"LOWER":"tracking"}]}
 {"label":"SKILL|vim","pattern":[{"LOWER":"vim"}]}
 {"label":"SKILL|virtual-circuit","pattern":[{"LOWER":"virtual"},{"LOWER":"circuit"}]}
-{"label":"SKILL|virtual-machine","pattern":[{"LOWER":"virtual"},{"LOWER":"machine"}]}
 {"label":"SKILL|virtual-machine","pattern":[{"LOWER":"virtual"},{"LOWER":"machine"}]}
 {"label":"SKILL|virtual-machine-management","pattern":[{"LOWER":"virtual"},{"LOWER":"machine"},{"LOWER":"management"}]}
 {"label":"SKILL|virtual-machine-platforms--containers","pattern":[{"LOWER":"virtual"},{"LOWER":"machine"},{"LOWER":"platforms"},{"LOWER":"&"},{"LOWER":"containers"}]}
