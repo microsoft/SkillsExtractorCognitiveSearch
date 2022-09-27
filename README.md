@@ -1,5 +1,5 @@
 > # Deprecation Notice
-> We've launched a better version of this service with Azure Cognitive Serivces - Text Analytics in the new V3 of the Named Entity Recognition (NER) endpoint. 
+> We've launched a better version of this service with Azure Cognitive Services - Text Analytics in the new V3 of the Named Entity Recognition (NER) endpoint. 
 
 > ## NER V3 Information
 > You can read more about this work and how to use it here:
